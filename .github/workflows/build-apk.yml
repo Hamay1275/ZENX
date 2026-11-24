@@ -26,6 +26,12 @@ jobs:
           mkdir project
           unzip -q ZENX_Android_Project_v0_1.zip -d project
           find project -name settings.gradle
+          
+      - name: Fix Java compatibility
+        run: |
+          APP_GRADLE=$(find project -path '*/app/build.gradle' | head -1)
+          printf '\nandroid {\n    compileOptions {\n        sourceCompatibility JavaVersion.VERSION_17\n        targetCompatibility JavaVersion.VERSION_17\n    }\n}\n' >> "$APP_GRADLE"
+          
 
       - name: Build APK
         run: |
